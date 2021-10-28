@@ -8,7 +8,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body" @scroll="onBodyScroll" ref="modalBody">
+        <div class="modal-body" @scroll="onScroll">
           <slot></slot>
         </div>
         <div class="modal-footer">
@@ -24,6 +24,8 @@
 
 <script>
 
+//import SrollHandler from "../mixins/srollHandler"; Локаольно подключать
+
 export default {
   name: 'Modal',
   data(){
@@ -31,29 +33,26 @@ export default {
       isRulesReaded: false
     }
   },
+  // mixins: [SrollHandler], Локаольно подключать
   props: {
     title: {
       type: String,
       default: ''
     }
   },
+  created(){
+    this.$myMethod()
+  },
   methods: {
     closeModal(){
       this.$emit('close')
     },
-    onBodyScroll(){
-      const modalBody = this.$refs.modalBody
-      if (modalBody.clientHeight + modalBody.scrollTop >= modalBody.scrollHeight) {
-        this.isRulesReaded = true
-      }
-      else this.isRulesReaded = false
-    }
-  },
-  mounted() {
-    const modalBody = this.$refs.modalBody
-    // modalBody.scroll(0, modalBody.scrollHeight - modalBody.clientHeight)
-    modalBody.scrollTop = modalBody.scrollHeight - modalBody.clientHeight
+    onScrollEnd(){
+			this.isRulesReaded = true
+		}
+
   }
+  
 }
 </script>
 

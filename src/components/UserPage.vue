@@ -1,9 +1,22 @@
 <template>
   <div class="user-page pt-5">
-    <button type="button" class="btn btn-primary" 
-      @click="openModal">
-      OpenModal
-    </button>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary" 
+        @click="openModal">
+        OpenModal
+      </button>
+    </div>    
+    
+    <div class="form-group">
+      <label for="t1">Пример текстового поля</label>
+      <textarea class="form-control" id="t1" rows="3" v-model="textArea"></textarea>
+    </div>
+    <p :inner-html.prop="textArea | upperCase | emoji">
+      <!-- {{textArea | upperCase | emoji}} -->
+    </p>
+    <p :inner-html.prop="textArea | marked"></p>
+    
+
     <Modal
       v-if="isModalOpen"
       title="Очень важнач информация"
@@ -42,12 +55,21 @@ export default {
   },
   data(){
     return{
+      textArea: '',
       isModalOpen : false
     }
   },
   methods: {
     openModal(){
       this.isModalOpen = true
+    }
+  },
+  filters: {
+    upperCase(value){
+      return value.toUpperCase()
+    },
+    emoji(value){
+      return value.replace(':)', '😀')
     }
   }
   
